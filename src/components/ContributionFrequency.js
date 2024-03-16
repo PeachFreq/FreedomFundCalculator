@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 function ContributionFrequency({ onValueChange }) {
-    const [contributionFrequency, setContributionFrequency] = useState("biweekly");
+    const [contributionFrequency, setContributionFrequency] = useState("monthly");
 
     useEffect(() => {
         onValueChange(contributionFrequency);

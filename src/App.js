@@ -1,40 +1,79 @@
 import './App.css';
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import ContributionFrequency from "./components/ContributionFrequency";
-import RateOfAppreciation from "./components/RateOfAppreciation";
-import ContributionAmount from "./components/ContributionAmount";
-import NumberOfYears from "./components/NumberOfYears";
-import ResultWindow from "./components/ResultWindow";
-import Plot from "./components/Plot";
+import OptionA from "./components/OptionA";
+import OptionB from "./components/OptionB";
 
 function App() {
+    const [activeTab, setActiveTab] = useState('B');
+    const [rentAmount, setRentAmount] = useState('$0');
+    const [foodAmount, setFoodAmount] = useState('$0');
+    const [utilAmount, setUtilAmount] = useState('$0');
+    const [autoInsuranceAmount, setAutoInsuranceAmount] = useState('$0');
+    const [subscriptionsAmount, setSubscriptionsAmount] = useState('$0');
+    const [startingValue, setStartingValue] = useState('');
     const [frequency, setFrequency] = useState('');
     const [rate, setRate] = useState('');
     const [amount, setAmount] = useState('');
     const [term, setTerm] = useState('');
     const [futureValue, setFutureValue] = useState('');
+    const [timeToGoal, setTimeToGoal] = useState('');
     const [imageSrc, setImageSrc] = useState('');
 
     function sendDataToFlask() {
-        const data = {
-            frequency: frequency,
-            rate: rate,
-            amount: amount,
-            term: term
-        };
+        function stripFormatting(string) {
+            return string.substring(1).replace(/,/g, '')
+        }
 
-        console.log(data);
+        if (term !== '') {
+            const data = {
+                initialValue: stripFormatting(startingValue),
+                frequency: frequency,
+                rate: rate,
+                amount: stripFormatting(amount),
+                term: term
+            };
 
-        axios.post('http://127.0.0.1:5000/generate', data)
-            .then(response => {
-                console.log('Success:', response.data);
-                setImageSrc(response.data.image);
-                setFutureValue(response.data.finalAccountValue);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            console.log(data);
+
+            axios.post('http://127.0.0.1:5000/generateA', data)
+                .then(response => {
+                    console.log('Success:', response.data);
+                    setImageSrc(response.data.image);
+                    setFutureValue(response.data.finalAccountValue);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            const data = {
+                rent: stripFormatting(rentAmount),
+                food: stripFormatting(foodAmount),
+                utils: stripFormatting(utilAmount),
+                autoInsurance: stripFormatting(autoInsuranceAmount),
+                subs: stripFormatting(subscriptionsAmount),
+                initialValue: stripFormatting(startingValue),
+                frequency: frequency,
+                rate: rate,
+                amount: stripFormatting(amount)
+            };
+
+            console.log(data);
+
+            axios.post('http://127.0.0.1:5000/generateB', data)
+                .then(response => {
+                    console.log('Success:', response.data);
+                    setImageSrc(response.data.image);
+                    setTimeToGoal(response.data.timeToGoal);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+    function handleStartingValueChange(startingValue) {
+        setStartingValue(startingValue);
+        // setStartingValue(parseInt(startingValue.substring(1).replace(/,/g, ''), 10));
     }
     function handleFrequencyChange(frequency) {
         setFrequency(frequency);
@@ -51,33 +90,63 @@ function App() {
     function handleTermChange(term) {
         setTerm(term);
     }
+    function handleRentChange(rentAmount) {
+        setRentAmount(rentAmount)
+    }
+    function handleFoodChange(foodAmount) {
+        setFoodAmount(foodAmount)
+    }
+    function handleUtilChange(utilAmount) {
+        setUtilAmount(utilAmount)
+    }
+    function handleAutoInsuranceChange(autoInsuranceAmount) {
+        setAutoInsuranceAmount(autoInsuranceAmount)
+    }
+    function handleSubscriptionsChange(subscriptionsAmount) {
+        setSubscriptionsAmount(subscriptionsAmount)
+    }
 
     return (
-    <div className="App">
-        <div className="App-body">
-            <h1>Freedom Fund Calculator</h1>
-            <Plot
-                plot={imageSrc}
-            />
-            <ContributionFrequency
-                onValueChange={handleFrequencyChange}
-            />
-            <RateOfAppreciation
-                onValueChange={handleRateChange}
-            />
-            <ContributionAmount
-                onValueChange={handleContributionChange}
-            />
-            <NumberOfYears
-                onValueChange={handleTermChange}
-            />
-            <button onClick={sendDataToFlask}>Send it</button>
-            <ResultWindow
-                futureValue={futureValue}
-            />
+        <div className="App">
+            <div className="tab-buttons">
+                <button onClick={() => setActiveTab('A')} className={activeTab === 'A' ? 'active' : ''}>Option A
+                </button>
+                <button onClick={() => setActiveTab('B')} className={activeTab === 'B' ? 'active' : ''}>Option B
+                </button>
+            </div>
+
+            <div className="App-body">
+                <h1>Freedom Fund Calculator</h1>
+                {activeTab === 'A' ? (
+                    <OptionA
+                        sendDataToFlask={sendDataToFlask}
+                        imageSrc={imageSrc}
+                        futureValue={futureValue}
+                        handleStartingValueChange={handleStartingValueChange}
+                        handleFrequencyChange={handleFrequencyChange}
+                        handleRateChange={handleRateChange}
+                        handleContributionChange={handleContributionChange}
+                        handleTermChange={handleTermChange}
+                    />
+                ) : (
+                    <OptionB
+                        sendDataToFlask={sendDataToFlask}
+                        imageSrc={imageSrc}
+                        handleRentChange={handleRentChange}
+                        handleFoodChange={handleFoodChange}
+                        handleUtilChange={handleUtilChange}
+                        handleAutoInsuranceChange={handleAutoInsuranceChange}
+                        handleSubscriptionsChange={handleSubscriptionsChange}
+                        handleStartingValueChange={handleStartingValueChange}
+                        handleFrequencyChange={handleFrequencyChange}
+                        handleRateChange={handleRateChange}
+                        handleContributionChange={handleContributionChange}
+                        lengthOfTime={timeToGoal}
+                    />
+                )}
+            </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default App;

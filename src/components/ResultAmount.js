@@ -1,4 +1,4 @@
-function ResultWindow({ futureValue }) {
+function ResultAmount({ futureValue }) {
     if (futureValue !== "") {
         function formatCurrency(amount) {
             return new Intl.NumberFormat('en-US', {
@@ -17,4 +17,4 @@ function ResultWindow({ futureValue }) {
     }
 }
 
-export default ResultWindow;
+export default ResultAmount;

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 function RateOfAppreciation({ onValueChange }) {
-    const [appreciationRate, setAppreciationRate] = useState("6");
+    const [appreciationRate, setAppreciationRate] = useState("20");
 
     useEffect(() => {
         onValueChange(appreciationRate);

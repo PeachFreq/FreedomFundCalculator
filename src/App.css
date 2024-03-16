@@ -45,6 +45,27 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the right */
+}
+
+.input-group {
+  margin-bottom: 3px;
+}
+
+.inline-element {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.input-group p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -56,4 +77,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.tab-buttons button {
+  padding: 10px;
+  margin-right: 5px;
+  background: lightgray;
+  border: none;
+  cursor: pointer;
+}
+
+.tab-buttons button.active {
+  background-color: #FFD54F;
+  color: white;
 }
