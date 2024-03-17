@@ -40,11 +40,22 @@ function OptionB({ sendDataToFlask, imageSrc, lengthOfTime, handleStartingValueC
             <Plot plot={imageSrc}/>
             <br/>
             <div>
-                <StartingValue onValueChange={handleStartingValueChange}/>
-                <ContributionFrequency onValueChange={handleFrequencyChange}/>
-                <RateOfAppreciation onValueChange={handleRateChange}/>
-                <ContributionAmount onValueChange={handleContributionChange}/>
-                <br/>
+                <div className="input-group-2">
+                    <p className="inline-element">Starting Account Value:</p>
+                    <StartingValue className="inline-element" onValueChange={handleStartingValueChange}/>
+                </div>
+                <div className="input-group-2">
+                    <p className="inline-element">Payday Frequency:</p>
+                    <ContributionFrequency className="inline-element" onValueChange={handleFrequencyChange}/>
+                </div>
+                <div className="input-group-2">
+                    <p className="inline-element">Annual Rate of Growth:</p>
+                    <RateOfAppreciation className="inline-element" onValueChange={handleRateChange}/>
+                </div>
+                <div className="input-group-2">
+                    <p className="inline-element">Account Contribution Amount:</p>
+                    <ContributionAmount className="inline-element" onValueChange={handleContributionChange}/>
+                </div>
                 <button onClick={sendDataToFlask}>Send it</button>
                 <ResultTime lengthOfTime={lengthOfTime}/>
             </div>

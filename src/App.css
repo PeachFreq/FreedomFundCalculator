@@ -35,6 +35,10 @@
   color: white;
 }
 
+.App-body h1 {
+  margin-bottom: 10px;
+}
+
 .App-body button {
   background: #FFD54F;
   color: hotpink;
@@ -48,10 +52,21 @@
 .input-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Align items to the right */
+  align-items: flex-end;
+  width: fit-content; /* Adjust this based on your design requirements */
+  margin-left: auto;
+  margin-right: auto; /* Centers the container horizontally */
 }
 
 .input-group {
+  margin-bottom: 3px;
+}
+
+.input-group-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Adjust if you want items aligned to the start */
+  gap: 0px; /* Adjust according to your design needs */
   margin-bottom: 3px;
 }
 
@@ -59,6 +74,10 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 12px;
+  margin-top: 0;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  /*white-space: nowrap; !* Prevents wrapping text *!*/
 }
 
 .input-group p {

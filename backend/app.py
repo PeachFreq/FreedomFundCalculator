@@ -176,12 +176,6 @@ def calculate_time_to_goal_route_handler():
     # Calculate the principal contributions over time
     # principal_contributions = [initial_value + amount * i for i in range(total_pay_periods(contributions_per_year, term) + 1)]
 
-    # Print statements for testing purposes...
-    print('Check start')
-    print(len(values))
-    print(total_pay_periods() + 1)
-    print('Check fin')
-
     # Convert the example data into a Pandas DataFrame
     data = pd.DataFrame({
         'Time': range(0, total_pay_periods() + 1),
